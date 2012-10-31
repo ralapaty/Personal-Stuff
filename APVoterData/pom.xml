@@ -17,6 +17,11 @@
             <groupId>com.opera</groupId>
             <artifactId>operadriver</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>1.7.1</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

@@ -38,12 +38,19 @@ public class APVoterDataDownloader {
         // Find the text input element by its name
         Select district = new Select(driver.findElement(By.name("ddlDist")));
         int numOfDistricts = district.getOptions().size();
-        for (int d=2; d<=numOfDistricts; d++) {
-            district.selectByValue(d);
+
+        for (int d=1; d<=numOfDistricts; d++) {
+            district.selectByValue(String.valueOf(d));
             Select constituency = new Select(driver.findElement(By.name("ddlAC")));
             int numOfconstituencies = constituency.getOptions().size();
             System.out.println("numOfconstituencies:"+numOfconstituencies);
-            for(int i=2; i<=numOfconstituencies; i++){
+            int i =0;
+            if (d == 1) {
+                i = 3;
+            } else {
+                i = 1;
+            }
+            for(; i<=numOfconstituencies; i++){
                 constituency.selectByValue(String.valueOf(i));
                 String constituencyName = constituency.getFirstSelectedOption().getText();
                 System.out.println("Constituency Name:" + constituencyName);
@@ -52,10 +59,12 @@ public class APVoterDataDownloader {
                 WebElement boothTable = driver.findElement(By.xpath("//*[@id=\"GridView1\"]"));
                 int boothCount = boothTable.findElements(By.tagName("tr")).size() - 1;
                 System.out.println("boothCount:"+boothCount);
-                // for (int i=0;)
                 WebElement downloadLink = null;
-                // downloadLink.click();
-                for (int j=0; j < boothCount; j++) {
+                int j = 0;
+                if (i == 3) {
+                  j = 77;
+                }
+                for (; j < boothCount; j++) {
                     int no = j + 2;
                     if (no<10) {
                         downloadLink =  driver.findElement(By.id("GridView1_ctl0"+no+"_lnkEnglish"));
@@ -70,7 +79,7 @@ public class APVoterDataDownloader {
 
                     String boothFileName = constituencyName+"-"+boothNo+"-"+boothName+".pdf";
                     System.out.println("Booth No:"+boothNo+" and Name:"+boothName+" FileName:"+boothFileName);
-                    (new WebDriverWait(driver, 180, 10)).until(new ExpectedCondition<Boolean>() {
+                    (new WebDriverWait(driver, 300, 10)).until(new ExpectedCondition<Boolean>() {
                         public Boolean apply(WebDriver d) {
                             return !downloadedFilePart.exists();
                         }
